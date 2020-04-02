@@ -1,8 +1,21 @@
 import Vue from 'vue';
 import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
+import Vuex from 'vuex'
+import VueRouter from 'vue-router'
+import VModal from "vue-js-modal";
+import Notify from "vue-notifyjs";
 
+import { ValidationProvider } from 'vee-validate';
 Vue.use(Vuetify);
+Vue.use(Vuex);
+Vue.use(VueRouter);
+Vue.use(Notify, {
+  horizontalAlign: "center",
+  verticalAlign: "top"
+});
+Vue.use(VModal, { dynamic: true });
+Vue.component('ValidationProvider', ValidationProvider);
 
 export default new Vuetify({
   theme: {
