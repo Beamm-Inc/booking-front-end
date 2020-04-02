@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar
+    <v-app-bar
       absolute
       color="#6A76AB"
       dark
@@ -7,7 +7,7 @@
       prominent
       src="https://picsum.photos/1920/1080?random"
       fade-img-on-scroll
-      scroll-target="#scrolling-techniques-4"
+      scroll-target="#scrolling-techniques-3"
     >
       <template v-slot:img="{ props }">
         <v-img
@@ -18,7 +18,7 @@
 
       <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
 
-      <!-- <v-toolbar-title>BeamInc - Flight Booking</v-toolbar-title> -->
+      <!-- <v-toolbar-title>Flight Booking - BeamnInc</v-toolbar-title> -->
 
       <v-spacer></v-spacer>
 
@@ -66,7 +66,7 @@
       </v-menu>
 
       <template v-slot:extension>
-        <v-tabs align-with-title>
+        <v-tabs  centered>
           <v-tab to="/home">Flight Booking</v-tab>
           <v-tab to="/manage">Manage Booking</v-tab>
           <v-tab>Flight Information</v-tab>
