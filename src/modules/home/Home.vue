@@ -1,14 +1,14 @@
 <template>
   <v-layout row>
     <v-col md="6" class="ml-auto">
-      <v-card class="pa-4">
-        <v-form @submit.prevent="login" ref="form" v-model="valid" lazy-validation>
+      <v-card class="pa-6" shaped raised>
+        <v-form @submit.prevent="search" ref="form" v-model="valid">
           <v-layout row>
             <v-flex pl-3 xs6>
               <v-autocomplete
                 :rules="airportRules"
                 :items="airports"
-                v-model="item.origin"
+                v-model="item.from"
                 label="From"
                 name="From"
                 item-value="airportID"
@@ -16,13 +16,14 @@
                 no-data-text="No city with this name"
                 rounded
                 filled
+                required
               />
             </v-flex>
             <v-flex pl-3 xs6>
               <v-autocomplete
                 :rules="airportRules"
                 :items="airports"
-                v-model="item.destination"
+                v-model="item.to"
                 label="To"
                 name="To"
                 item-value="airportID"
@@ -30,6 +31,7 @@
                 no-data-text="No city with this name"
                 rounded
                 filled
+                required
               />
             </v-flex>
           </v-layout>
@@ -93,13 +95,15 @@
                 v-model="item.flightClass"
                 label="Cabin class"
                 name="flightClass"
+                item-value="value"
+                item-text="name"
                 rounded
                 filled
               />
             </v-flex>
           </v-layout>
           <v-card-actions class="text-xs-center">
-            <v-btn type="submit" block color="primary" :disabled="!valid">Search Flights</v-btn>
+            <v-btn type="submit" color="primary" :disabled="!valid" rounded raised class="pa-2">Search Flights</v-btn>
           </v-card-actions>
         </v-form>
       </v-card>
@@ -107,31 +111,42 @@
   </v-layout>
 </template>
 <script>
+import { AirportAPI } from "@/api";
+
 export default {
   name: "Home",
   data() {
     return {
       valid: true,
       item: {
-        origin: "",
-        destination: ""
       },
-      departureDate: new Date().toISOString().substr(0, 10),
-      returnDate: new Date().toISOString().substr(0, 10),
+      departureDate: null,
+      returnDate: null,
       departureModal: false,
       returnModal: false,
       airportRules: [v => !!v || "This field is required"],
-      airports: [
-        {
-          airportName: "Add",
-          airportId: "ER3289"
-        }
-      ],
-      flightClasses: ["Economy", "Business", "First Class"]
+      airports: [],
+      flightClasses: [ 
+        {name: "Economy", value: "economy"},
+        {name: "Business", value: "business"},
+        {name: "First Class", value: "first"}
+       ]
     };
   },
-  methods: {
-    async login() {}
+  async created() {
+    AirportAPI.all().then(res => {
+      this.airports = res.content;      
+    })
+  },
+  methods: {    
+    async search() {
+      this.$refs.form.validate();
+      this.item.dateOfDeparture = this.departureDate;
+      this.item.dateOfReturn = this.departureDate;
+      if(this.valid){
+        this.$router.push({ name: "booking", params: { query: this.item } });
+      }
+    }
   }
 };
 </script>
