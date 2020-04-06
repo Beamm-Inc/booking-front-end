@@ -16,6 +16,7 @@ Vue.use(Notify, {
 });
 Vue.use(VModal, { dynamic: true });
 Vue.component('ValidationProvider', ValidationProvider);
+Vue.use(require('vue-moment'));
 
 export default new Vuetify({
   theme: {
